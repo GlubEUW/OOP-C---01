@@ -1,18 +1,19 @@
 #include <iostream>
 #include <sstream>
-#include <cstdlib>
-#include <ctime>
 #include <cassert>
 using namespace std;
 
 class Animal{
-
+    public:
+        static int animalCount;
+        static int animalIdCounter;
 
     private:
         string name;
         int age, legCount;
         bool status;
-        static int animalCount;
+        int animalId = animalIdCounter;
+
     public:
         Animal(string n, int a, int l){
             name = n;
@@ -20,12 +21,14 @@ class Animal{
             legCount = l;
             status = true;
             animalCount++;
+            animalIdCounter++;
         }
         Animal(int a, int l){
             age = a;
             legCount = l;
             status = false;
             animalCount++;
+            animalIdCounter++;
         }
 
         ~Animal(){
@@ -48,6 +51,8 @@ class Animal{
         }
         int getAge(){return age;}
 
+        int getId(){return animalId;}
+
         void setLegCount(int l){legCount = l;}
         int getLegCount(){return legCount;}
 
@@ -60,7 +65,10 @@ class Animal{
             return ss.str();
         }
 };
-    int Animal::animalCount = 0;
+
+int Animal::animalCount = 0;
+int Animal::animalIdCounter = 0;
+
 int main(){
     const int amount = 1000;
 
@@ -92,26 +100,32 @@ int main(){
 
 
     assert(cow.toString() == "Moo 13 3 1");
-
+    cout << "To string " << endl;
 
 
     Animal* animals[amount];
-    srand(time(0));
-    int randomNum = rand() % 101;
-    for (int i = 0; i < amount; i++) {
-        animals[i] = new Animal("Cow" + to_string(i + 1), randomNum, 4);
-    }
-
-
 
     for (int i = 0; i < amount; i++) {
-        animals[i] ;
+        animals[i] = new Animal("Cow" + to_string(i + 1), i%10, 4);
     }
+
+    assert(Animal::animalCount = 1001);
+    cout << "Object count check passed" << endl;
+
+    assert(cow.getId() == 0);
+    assert(animals[12]->getId() == 13);
+
+
+    cout << "Id check passed" << endl;
+
+
 
 
 
     for (int i = 0; i < amount; i++) {
         delete animals[i];
     }
+
+
     return 0;
 }
