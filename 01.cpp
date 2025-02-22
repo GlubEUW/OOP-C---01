@@ -4,9 +4,7 @@
 using namespace std;
 
 class Animal{
-    Animal(){
-            status = true;
-        }
+
 
     private:
         string name;
@@ -14,11 +12,32 @@ class Animal{
         bool status;
 
     public:
+        Animal(string n, int a, int l){
+            name = n;
+            age = a;
+            legCount = l;
+            status = true;
+        }
+        Animal(int a, int l){
+            age = a;
+            legCount = l;
+            status = true;
+        }
 
         void setName(string n){name = n;}
         string getName(){return name;}
 
-        void setAge(int a){age = a;}
+        void setAge(int a){
+            try{
+                if(age>=0)
+                    age = a;
+                else
+                    throw (age);
+            }
+            catch (int age){
+            cout << "Age must be positive" << endl;
+            }
+        }
         int getAge(){return age;}
 
         void setLegCount(int l){legCount = l;}
@@ -36,4 +55,10 @@ class Animal{
 
 int main(){
 
+    Animal cow(12,4);
+
+    cout << cow.toString() << endl;
+
+
+    return 0;
 }
