@@ -66,14 +66,16 @@ class Animal{
         }
 };
 
+
 int Animal::animalCount = 0;
 int Animal::animalIdCounter = 0;
 
+
 int main(){
     const int amount = 1000;
-
-
     Animal cow(12,4);
+
+
 
     assert(cow.getAge() == 12);
     assert(cow.getLegCount() == 4);
@@ -100,21 +102,23 @@ int main(){
 
 
     assert(cow.toString() == "Moo 13 3 1");
-    cout << "To string " << endl;
+    cout << "To string check passed" << endl;
 
 
     Animal* animals[amount];
 
     for (int i = 0; i < amount; i++) {
         animals[i] = new Animal("Cow" + to_string(i + 1), i%10, 4);
+        if (animals[i]->getAge() >= 3)
+            animals[i]->dead();
     }
 
-    assert(Animal::animalCount = 1001);
+    assert(Animal::animalCount == 1001);
     cout << "Object count check passed" << endl;
 
     assert(cow.getId() == 0);
     assert(animals[12]->getId() == 13);
-
+    assert(animals[999]->getId() == 1000);
 
     cout << "Id check passed" << endl;
 
@@ -125,7 +129,8 @@ int main(){
     for (int i = 0; i < amount; i++) {
         delete animals[i];
     }
-
+    assert(Animal::animalCount == 1);
+    cout << "Object delete count check passed" << endl;
 
     return 0;
 }
