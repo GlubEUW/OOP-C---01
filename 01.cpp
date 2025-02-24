@@ -30,7 +30,6 @@ class Animal{
             animalCount++;
             animalIdCounter++;
         }
-
         ~Animal(){
             animalCount--;
         }
@@ -50,7 +49,6 @@ class Animal{
             }
         }
         int getAge(){return age;}
-
         int getId(){return animalId;}
 
         void setLegCount(int l){legCount = l;}
@@ -106,12 +104,22 @@ int main(){
 
 
     Animal* animals[amount];
-
+    // example: let's say we need to sort thorough data and find if some animals are dead later
     for (int i = 0; i < amount; i++) {
         animals[i] = new Animal("Cow" + to_string(i + 1), i%10, 4);
-        if (animals[i]->getAge() >= 3)
+        if (animals[i]->getAge() >= 5)
             animals[i]->dead();
     }
+
+    assert(animals[6]->isDead());
+    assert(animals[16]->isDead());
+    assert(animals[126]->isDead());
+    assert(animals[996]->isDead());
+
+
+    cout << "Is dead on generated list test passed" << endl;
+
+
 
     assert(Animal::animalCount == 1001);
     cout << "Object count check passed" << endl;
