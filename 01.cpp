@@ -5,38 +5,41 @@
 using namespace std;
 
 class Animal{
-    public:
-        static int animalCount;
-        static int animalIdCounter;
+    static int animalCount;
+    static int animalIdCounter;
 
     private:
         string name;
         int age, legCount;
-        bool status;
-        int animalId = animalIdCounter;
+        bool isAlive;
+        int animalId;
 
     public:
-        Animal(string n, int a, int l){
-            name = n;
-            age = a;
-            legCount = l;
-            status = true;
+        Animal(int age, int legCount, string name){
+            setName(name);
+            setAge(age);
+            setLegCount(legCount);
+            isAlive = true;
             animalCount++;
-            animalIdCounter++;
+            animalId = animalIdCounter++;
         }
-        Animal(int a, int l){
-            age = a;
-            legCount = l;
-            status = false;
+        Animal(int age, int legCount){
+            setAge(age);
+            setLegCount(legCount);
+            isAlive = true;
             animalCount++;
-            animalIdCounter++;
+            animalId = animalIdCounter++;
         }
         ~Animal(){
             animalCount--;
         }
 
-        void setName(string n){name = n;}
-        string getName(){return name;}
+        void setName(string n){
+            name = n;
+        }
+        string getName(){
+            return name;
+        }
 
         void setAge(int a){
             try{
@@ -49,18 +52,33 @@ class Animal{
             cout << "Age must be positive" << endl;
             }
         }
-        int getAge(){return age;}
-        int getId(){return animalId;}
+        int getAge(){
+            return age;
+        }
+        int getId(){
+            return animalId;
+        }
+        static int getCount(){
+            return animalCount;
+        }
 
-        void setLegCount(int l){legCount = l;}
-        int getLegCount(){return legCount;}
+        void setLegCount(int l){
+            legCount = l;
+        }
+        int getLegCount(){
+            return legCount;
+        }
 
-        bool isDead(){return status;}
-        void dead(){status = 1;}
+        bool isDead(){
+            return isAlive;
+        }
+        void dead(){
+            isAlive = 1;
+        }
 
         string toString(){
             stringstream ss;
-            ss << name << " "<< age << " " << legCount << " " << status;
+            ss << name << " "<< age << " " << legCount << " " << isAlive;
             return ss.str();
         }
 };
@@ -71,6 +89,9 @@ int Animal::animalIdCounter = 0;
 
 
 int main(){
+    {
+
+
     const int amount = 1000;
     Animal cow(12,4);
 
@@ -107,7 +128,7 @@ int main(){
     Animal* animals[amount];
     // example: let's say we need to sort thorough data and find if some animals are dead later
     for (int i = 0; i < amount; i++) {
-        animals[i] = new Animal("Cow" + to_string(i + 1), i%10, 4);
+        animals[i] = new Animal(i%10, 4, "Cow" + to_string(i + 1));
         if (animals[i]->getAge() >= 5)
             animals[i]->dead();
     }
@@ -122,7 +143,7 @@ int main(){
 
 
 
-    assert(Animal::animalCount == 1001);
+    assert(Animal::getCount() == 1001);
     cout << "Object count check passed" << endl;
 
     assert(cow.getId() == 0);
@@ -138,7 +159,9 @@ int main(){
     for (int i = 0; i < amount; i++) {
         delete animals[i];
     }
-    assert(Animal::animalCount == 1);
+
+    }
+    assert(Animal::getCount() == 0);
     cout << "Object delete count check passed" << endl;
 
     return 0;
