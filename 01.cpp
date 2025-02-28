@@ -34,8 +34,8 @@ class Animal{
             animalCount--;
         }
 
-        void setName(string n){
-            name = n;
+        void setName(string name){
+            this->name = name;
         }
         string getName(){
             return name;
@@ -57,8 +57,8 @@ class Animal{
             return animalCount;
         }
 
-        void setLegCount(int l){
-            legCount = l;
+        void setLegCount(int legCount){
+            this->legCount = legCount;
         }
         int getLegCount(){
             return legCount;
