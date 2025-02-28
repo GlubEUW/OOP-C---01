@@ -19,14 +19,14 @@ class Animal{
             setName(name);
             setAge(age);
             setLegCount(legCount);
-            isAlive = true;
+            alive();
             animalCount++;
             animalId = animalIdCounter++;
         }
         Animal(int age, int legCount){
             setAge(age);
             setLegCount(legCount);
-            isAlive = true;
+            alive();
             animalCount++;
             animalId = animalIdCounter++;
         }
@@ -41,16 +41,11 @@ class Animal{
             return name;
         }
 
-        void setAge(int a){
-            try{
-                if(age>=0)
-                    age = a;
-                else
-                    throw (age);
-            }
-            catch (int age){
-            cout << "Age must be positive" << endl;
-            }
+        void setAge(int newAge){
+            if(newAge>=0)
+                age = newAge;
+            else
+                throw (newAge);
         }
         int getAge(){
             return age;
@@ -69,13 +64,15 @@ class Animal{
             return legCount;
         }
 
-        bool isDead(){
+        bool getIsAlive(){
             return isAlive;
         }
         void dead(){
+            isAlive = 0;
+        }
+        void alive(){
             isAlive = 1;
         }
-
         string toString(){
             stringstream ss;
             ss << name << " "<< age << " " << legCount << " " << isAlive;
@@ -89,7 +86,7 @@ int Animal::animalIdCounter = 0;
 
 
 int main(){
-    {
+    try{
 
 
     const int amount = 1000;
@@ -117,11 +114,11 @@ int main(){
     cout << "Set and Get leg count check passed" << endl;
 
     cow.dead();
-    assert(cow.isDead());
+    assert(!cow.getIsAlive());
     cout << "Animal death check passed rip" << endl;
 
 
-    assert(cow.toString() == "Moo 13 3 1");
+    assert(cow.toString() == "Moo 13 3 0");
     cout << "To string check passed" << endl;
 
 
@@ -133,10 +130,10 @@ int main(){
             animals[i]->dead();
     }
 
-    assert(animals[6]->isDead());
-    assert(animals[16]->isDead());
-    assert(animals[126]->isDead());
-    assert(animals[996]->isDead());
+    assert(!animals[6]->getIsAlive());
+    assert(!animals[16]->getIsAlive());
+    assert(!animals[126]->getIsAlive());
+    assert(!animals[996]->getIsAlive());
 
 
     cout << "Is dead on generated list test passed" << endl;
@@ -160,6 +157,9 @@ int main(){
         delete animals[i];
     }
 
+    }
+    catch (int age){
+            cout << "Age must be positive" << endl;
     }
     assert(Animal::getCount() == 0);
     cout << "Object delete count check passed" << endl;
